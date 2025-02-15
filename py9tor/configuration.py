@@ -23,7 +23,7 @@ class Py9torConfig:
                 if ('targets' in config):
                     self._targets = config['targets']
         except FileNotFoundError:
-            logging.error('Configuratiuon file {} not found, using defaults'.format(CONFIG_NAME))
+            logging.error('Configuration file {} not found, using defaults'.format(CONFIG_NAME))
         logging.debug('host: {}'.format(self._host))
         logging.debug('port: {}'.format(self._port))
         logging.debug('targets: {}'.format(self._targets))
