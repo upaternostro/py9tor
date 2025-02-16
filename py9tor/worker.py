@@ -76,6 +76,7 @@ class LocalExecutor(Py9torExecutor):
         process = subprocess.run(self.attrs['args'], 
                                 stdout=subprocess.PIPE, 
                                 stderr=subprocess.PIPE, 
+                                user=self.attrs['user'] if 'user' in self.attrs else None, 
                                 universal_newlines=True)
         if process.returncode != 0:
             logging.error('LocalExecutor.exec(): process: {}'.format(process))
