@@ -7,6 +7,7 @@ import threading
 import utils
 import subprocess
 from importlib import import_module
+import sys
 
 class AcceptError(Exception):
     def __init__(self, msg):
@@ -73,11 +74,19 @@ class LocalExecutor(Py9torExecutor):
     def exec(self):
         logging.debug('LocalExecutor.exec(): starting')
         logging.debug('LocalExecutor.exec(): self.attrs: {}'.format(self.attrs))
-        process = subprocess.run(self.attrs['args'], 
-                                stdout=subprocess.PIPE, 
-                                stderr=subprocess.PIPE, 
-                                user=self.attrs['user'] if 'user' in self.attrs else None, 
-                                universal_newlines=True)
+        if (sys.version_info >= (3,9)):
+            process = subprocess.run(self.attrs['args'], 
+                                    stdout=subprocess.PIPE, 
+                                    stderr=subprocess.PIPE, 
+                                    user=self.attrs['user'] if 'user' in self.attrs else None, 
+                                    universal_newlines=True)
+        else:
+            if ('user' in self.attrs):
+                logging.warning('LocalExecutor.exec(): ignoring user parameter')
+            process = subprocess.run(self.attrs['args'], 
+                                    stdout=subprocess.PIPE, 
+                                    stderr=subprocess.PIPE, 
+                                    universal_newlines=True)
         if process.returncode != 0:
             logging.error('LocalExecutor.exec(): process: {}'.format(process))
         else:
