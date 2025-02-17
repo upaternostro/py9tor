@@ -1,0 +1,9 @@
+[Unit]
+Description=py9tor
+
+[Service]
+WorkingDirectory=/usr/local/py9tor
+ExecStart=/usr/bin/python3 main.py
+
+[Install]
+WantedBy=multi-user.target
